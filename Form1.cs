@@ -148,7 +148,7 @@ namespace WindowsFormsApp2
             }
             catch (Exception) { }*/
 
-            if (Convert.ToInt32(weightTextBox.Text) == Convert.ToDouble(weightTextBox.Text))
+            if (Convert.ToInt32("0" + weightTextBox.Text) == Convert.ToDouble("0" + weightTextBox.Text))
             {
 
                 CalculateComplectCost();
@@ -306,7 +306,8 @@ namespace WindowsFormsApp2
                 (furnitureTextBox.Text.Equals("")) ||
                 (weightTextBox.Text.Equals("")) ||
                 (etajTextBox.Text.Equals("")) ||
-                (matrasComboBox.TabIndex.Equals("")))
+                (matrasComboBox.TabIndex.Equals("")) ||
+                  (rasstTextBox.Text.Equals("")))
             {
                 MessageBox.Show("Вы не ввели все необходимые данные!!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
             }
@@ -373,6 +374,7 @@ namespace WindowsFormsApp2
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             Word.Application app = new Word.Application();
+            app.Visible = false;
             Object fileName = Application.StartupPath + "\\Договор создания дополнительных услуг.docx";
             Object missing = Type.Missing;
             app.Documents.Open(ref fileName);
@@ -426,9 +428,11 @@ namespace WindowsFormsApp2
             zamena(missing, wrap, replace, find, "*стоимость*", totalTextBox.Text);
             
 #endregion
-            app.ActiveDocument.SaveAsQuickStyleSet(Application.StartupPath + "\\Договор 1.docx");
-            //app.ActiveDocument.Close();
+            app.ActiveDocument.SaveAs(Application.StartupPath + "\\Договор 1.docx");
+            app.ActiveDocument.Close();
             //app.Quit();
+            fileName = Application.StartupPath + "\\Договор 1.docx";
+            app.Documents.Open(ref fileName);
             app.Visible = true;
         }
 
@@ -525,45 +529,6 @@ namespace WindowsFormsApp2
             Close();
         }
 
-        private void topPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel6_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void kreplenieBox_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel4_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel7_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void etajTextBox_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-
-        }
-
-        private void weightTextBox_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-
-        }
     }
 }
 

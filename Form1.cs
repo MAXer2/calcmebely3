@@ -21,19 +21,18 @@ namespace WindowsFormsApp2
 
         private void Label1_Click(object sender, EventArgs e)
         {
-           bezPodyomaRadioButton.Checked = true;
+            bezPodyomaRadioButton.Checked = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-        
+
             prevButton.Visible = false;
 
             matrasComboBox.TabIndex = 1;
             bunifuFlatButton1.Visible = false;
-            bunifuFlatButton2.IconZoom = 70;
-
-
+            bunifuFlatButton2.IconZoom = 100;
+            
             Controls.Clear();
             Controls.Add(topPanel);
             Controls.Add(totalPanel);
@@ -42,7 +41,7 @@ namespace WindowsFormsApp2
 
         private void Label3_Click(object sender, EventArgs e)
         {
-
+            matrasComboBox.Focus();
         }
         #region Функции, упрощающие запись
         /// <summary>
@@ -73,7 +72,7 @@ namespace WindowsFormsApp2
         {
             try
             {
-                int weightMatras = (int)(40 * Convert.ToDouble(matrasComboBox.Text));
+                int weightMatras = (int)(40 * Convert.ToDouble(matrasComboBox.selectedValue.ToString()));
                 double weightFurniture = Convert.ToDouble(weightTextBox.Text);
                 int priceShippingPerKg = 2;
                 int pricePadik = Round10(priceShippingPerKg * (weightMatras + weightFurniture));
@@ -94,7 +93,7 @@ namespace WindowsFormsApp2
                 individDostRadioButton.Text = "(" + priceEdinolichnik.ToString() + " рублей)";
                 mezhgorodRadioButton.Text = "(" + (pricePadik + 30 * rasst).ToString() + " рублей)";
             }
-            catch (Exception) { }
+            catch (Exception ex) { }
 
             CalculateCost();
         }
@@ -140,22 +139,19 @@ namespace WindowsFormsApp2
 
         private void FurnitureTextBox_TextChanged(object sender, EventArgs e)
         {
-
-            /*try
+            try
             {
-                TextBox tb = (TextBox)sender;
-                tb.Text = (Convert.ToInt32(tb.Text)).ToString();
+                if (Convert.ToInt32("0" + weightTextBox.Text) == Convert.ToDouble("0" + weightTextBox.Text))
+                {
+                    CalculateComplectCost();
+                    CalculatePodiomCost();
+                    CalculateShippingCost();
+                }
             }
-            catch (Exception) { }*/
-
-            if (Convert.ToInt32("0" + weightTextBox.Text) == Convert.ToDouble("0" + weightTextBox.Text))
+            catch (Exception)
             {
-
-                CalculateComplectCost();
-                CalculatePodiomCost();
-                CalculateShippingCost();
+                MessageBox.Show("введите целое число");
             }
-            else Console.WriteLine("введите целое число");
         }
 
         /// <summary>
@@ -201,7 +197,7 @@ namespace WindowsFormsApp2
             {
                 int etaj = Convert.ToInt32(etajTextBox.Text);
 
-                int weightMatras = (int)(40 * Convert.ToDouble(matrasComboBox.Text));
+                int weightMatras = (int)(40 * Convert.ToDouble(matrasComboBox.selectedValue.ToString()));
                 double weightFurniture = Convert.ToDouble(weightTextBox.Text);
                 int pricePodyomPerKg = 1;
                 int pricePod = Round10(pricePodyomPerKg * etaj * (2 * weightMatras + weightFurniture));
@@ -221,7 +217,7 @@ namespace WindowsFormsApp2
                 bezLiftaRadioButton.Text = "(" + pricePod.ToString() + " рублей)";
                 sLiftomRadioButton.Text = "(" + priceLift.ToString() + " рублей)";
             }
-            catch (Exception) { }
+            catch (Exception ex) { /*MessageBox.Show(ex.Message);*/ }
 
             CalculateCost();
 
@@ -254,9 +250,9 @@ namespace WindowsFormsApp2
             try
             {
                 int etaj = Convert.ToInt32(etajTextBox.Text);
-                int rasst = Convert.ToInt32(rasstTextBox.Text);
+                int rasst = Round10(Convert.ToInt32(rasstTextBox.Text));
                 int kreplenie = Convert.ToInt32(kreplenieBox.Text);
-                int weightMatras = (int)(40 * Convert.ToDouble(matrasComboBox.Text));
+                int weightMatras = (int)(40 * Convert.ToDouble(matrasComboBox.selectedValue.ToString()));
                 double weightFurniture = Convert.ToDouble(weightTextBox.Text);
 
                 int price6Pr = Round10(Convert.ToInt32(furnitureTextBox.Text) * 0.06);
@@ -279,7 +275,7 @@ namespace WindowsFormsApp2
                     Sborka2RadioButton.Text = "(" + (priceSborkaUlyanovsk + 250 * kreplenie).ToString() + " рублей)";
                 }
             }
-            catch (Exception) { }
+            catch (Exception ex) { }
 
             CalculateCost();
         }
@@ -391,7 +387,7 @@ namespace WindowsFormsApp2
                 Wrap: wrap,
                 Format: false,
                 ReplaceWith: missing, Replace: replace);
-#region Замена 
+            #region Замена 
 
             zamena(missing, wrap, replace, find, "*Здесь адрес клиента*", textBox6.Text);
 
@@ -426,8 +422,8 @@ namespace WindowsFormsApp2
             zamena(missing, wrap, replace, find, "*цена креления*", Sborka2RadioButton.Text);
 
             zamena(missing, wrap, replace, find, "*стоимость*", totalTextBox.Text);
-            
-#endregion
+
+            #endregion
             app.ActiveDocument.SaveAs(Application.StartupPath + "\\Договор 1.docx");
             app.ActiveDocument.Close();
             //app.Quit();
@@ -455,7 +451,7 @@ namespace WindowsFormsApp2
         private void SLiftomRadioButton_CheckedChanged(object sender, EventArgs e)
         {
 
-            podyomTextBox.Text = ReplaceRubles(sLiftomRadioButton.Text);  
+            podyomTextBox.Text = ReplaceRubles(sLiftomRadioButton.Text);
             CalculateCost();
         }
 
@@ -468,7 +464,7 @@ namespace WindowsFormsApp2
         private void Sborka2RadioButton_CheckedChanged(object sender, EventArgs e)
         {
             sborkaTextBox.Text = ReplaceRubles(Sborka2RadioButton.Text);
-             CalculateCost();
+            CalculateCost();
         }
 
         private void BezPodyomaRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -480,7 +476,7 @@ namespace WindowsFormsApp2
         private void BezSborkiRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             sborkaTextBox.Text = ReplaceRubles(bezSborkiRadioButton.Text);
-            CalculateCost();            
+            CalculateCost();
         }
 
         private void Label16_Click(object sender, EventArgs e)
@@ -517,7 +513,7 @@ namespace WindowsFormsApp2
         {
             Sborka2RadioButton.Checked = true;
         }
-        
+
         private void BunifuFlatButton1_Click_1(object sender, EventArgs e)
         {
             pictureBox1_Click(sender, e);
@@ -529,6 +525,141 @@ namespace WindowsFormsApp2
             Close();
         }
 
+        private void kreplenieBox_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        {
+
+        }
+
+        private void weightTextBox_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        {
+
+        }
+
+       
+
+        private void rasstTextBox_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        {
+
+        }
+
+        private void textBox5_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        {
+
+        }
+
+        private void textBox5_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!Char.IsDigit(number) && number != 8 && number != 43)
+            {
+                e.Handled = true;
+            }
+
+            if (textBox5.Text.Length > 11 && number != 8)
+            {
+                e.Handled = true;
+            }
+
+        }
+
+        private Point MouseHook;
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+
+            Cursor = Cursors.Default;
+            if (e.Button != MouseButtons.Left) MouseHook = e.Location;
+            else
+            {
+                Location = new Point((Size)Location - (Size)MouseHook + (Size)e.Location);
+                Cursor = Cursors.Hand;
+            }
+
+        }
+
+        private void etajTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!Char.IsDigit(number) && number != 8 )
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void furnitureTextBox_MouseClick(object sender,  MouseEventArgs e )
+        {
+        }
+
+        private void furnitureTextBox_Click(object sender, EventArgs e)
+        {
+            if (textBox5.Text.Length < 12 )
+            {
+                MessageBox.Show("Введите правильный номер телефона ");
+                textBox5.Focus();
+
+            }
+        }
+
+        private void label10_MouseClick(object sender, MouseEventArgs e)
+        {
+            furnitureTextBox.Focus();
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+            textBox5.Focus();
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+
+            textBox6.Focus();
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+
+            textBox4.Focus();
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+
+            textBox3.Focus();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            weightTextBox.Focus();
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            etajTextBox.Focus();
+        }
+
+        private void label20_Click(object sender, EventArgs e)
+        {
+            rasstTextBox.Focus();
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+            dateTimePicker1.Focus();
+        }
+
+        private void furnitureTextBox_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        {
+
+        }
+
+        private void kreplenieBox_Click(object sender, EventArgs e)
+        {
+            kreplenieBox.Text = "";
+        }
     }
 }
-

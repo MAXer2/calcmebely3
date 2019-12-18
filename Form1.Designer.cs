@@ -72,6 +72,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel6 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.kreplenieBox = new System.Windows.Forms.MaskedTextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
@@ -79,7 +80,6 @@
             this.label17 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.bezSborkiRadioButton = new System.Windows.Forms.RadioButton();
-            this.kreplenieBox = new System.Windows.Forms.MaskedTextBox();
             this.label23 = new System.Windows.Forms.Label();
             this.Sborka1RadioButton = new System.Windows.Forms.RadioButton();
             this.complectTextBox = new System.Windows.Forms.TextBox();
@@ -149,7 +149,7 @@
             this.nextButton.IdleFillColor = System.Drawing.Color.White;
             this.nextButton.IdleForecolor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(66)))), ((int)(((byte)(131)))));
             this.nextButton.IdleLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(76)))), ((int)(((byte)(141)))));
-            this.nextButton.Location = new System.Drawing.Point(463, -1);
+            this.nextButton.Location = new System.Drawing.Point(463, -2);
             this.nextButton.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.nextButton.Name = "nextButton";
             this.nextButton.Size = new System.Drawing.Size(120, 48);
@@ -242,7 +242,7 @@
             this.topPanel.Name = "topPanel";
             this.topPanel.Size = new System.Drawing.Size(589, 24);
             this.topPanel.TabIndex = 34;
-   
+            this.topPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             // 
             // bunifuFlatButton2
             // 
@@ -340,29 +340,30 @@
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(580, 458);
             this.panel7.TabIndex = 41;
-
             // 
             // rasstTextBox
             // 
             this.rasstTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(66)))), ((int)(((byte)(131)))));
             this.rasstTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rasstTextBox.ForeColor = System.Drawing.Color.Gainsboro;
-            this.rasstTextBox.Location = new System.Drawing.Point(326, 258);
+            this.rasstTextBox.Location = new System.Drawing.Point(326, 255);
             this.rasstTextBox.Name = "rasstTextBox";
             this.rasstTextBox.Size = new System.Drawing.Size(217, 17);
             this.rasstTextBox.TabIndex = 28;
-     
+            this.rasstTextBox.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.rasstTextBox_MaskInputRejected);
+            this.rasstTextBox.TextChanged += new System.EventHandler(this.FurnitureTextBox_TextChanged);
             // 
             // label20
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label20.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label20.Location = new System.Drawing.Point(313, 230);
+            this.label20.Location = new System.Drawing.Point(313, 228);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(249, 20);
             this.label20.TabIndex = 64;
             this.label20.Text = "Расстояние за пределы города";
+            this.label20.Click += new System.EventHandler(this.label20_Click);
             // 
             // textBox6
             // 
@@ -390,10 +391,13 @@
             this.furnitureTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(66)))), ((int)(((byte)(131)))));
             this.furnitureTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.furnitureTextBox.ForeColor = System.Drawing.Color.Gainsboro;
-            this.furnitureTextBox.Location = new System.Drawing.Point(39, 426);
+            this.furnitureTextBox.Location = new System.Drawing.Point(40, 426);
             this.furnitureTextBox.Name = "furnitureTextBox";
             this.furnitureTextBox.Size = new System.Drawing.Size(254, 17);
             this.furnitureTextBox.TabIndex = 25;
+            this.furnitureTextBox.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.furnitureTextBox_MaskInputRejected);
+            this.furnitureTextBox.Click += new System.EventHandler(this.furnitureTextBox_Click);
+            this.furnitureTextBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.furnitureTextBox_MouseClick);
             this.furnitureTextBox.TextChanged += new System.EventHandler(this.FurnitureTextBox_TextChanged);
             // 
             // label27
@@ -418,6 +422,8 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(254, 17);
             this.textBox5.TabIndex = 24;
+            this.textBox5.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.textBox5_MaskInputRejected);
+            this.textBox5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox5_KeyPress);
             // 
             // label26
             // 
@@ -437,19 +443,19 @@
             this.etajTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.etajTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.etajTextBox.ForeColor = System.Drawing.Color.Gainsboro;
-            this.etajTextBox.Location = new System.Drawing.Point(326, 175);
+            this.etajTextBox.Location = new System.Drawing.Point(326, 171);
             this.etajTextBox.Name = "etajTextBox";
             this.etajTextBox.Size = new System.Drawing.Size(219, 19);
             this.etajTextBox.TabIndex = 27;
-        
             this.etajTextBox.TextChanged += new System.EventHandler(this.FurnitureTextBox_TextChanged);
+            this.etajTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.etajTextBox_KeyPress);
             // 
             // label29
             // 
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label29.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label29.Location = new System.Drawing.Point(321, 180);
+            this.label29.Location = new System.Drawing.Point(321, 176);
             this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(225, 20);
@@ -498,7 +504,7 @@
             this.label34.AutoSize = true;
             this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label34.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label34.Location = new System.Drawing.Point(32, 429);
+            this.label34.Location = new System.Drawing.Point(33, 429);
             this.label34.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(270, 20);
@@ -512,7 +518,7 @@
             this.dateTimePicker1.ForeColor = System.Drawing.Color.White;
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Long;
             this.dateTimePicker1.FormatCustom = null;
-            this.dateTimePicker1.Location = new System.Drawing.Point(323, 317);
+            this.dateTimePicker1.Location = new System.Drawing.Point(323, 319);
             this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(222, 39);
@@ -531,13 +537,13 @@
         "3",
         "4",
         "5"};
-            this.matrasComboBox.Location = new System.Drawing.Point(324, 420);
+            this.matrasComboBox.Location = new System.Drawing.Point(324, 412);
             this.matrasComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.matrasComboBox.Name = "matrasComboBox";
             this.matrasComboBox.NomalColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(76)))), ((int)(((byte)(161)))));
             this.matrasComboBox.onHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(76)))), ((int)(((byte)(161)))));
             this.matrasComboBox.selectedIndex = 0;
-            this.matrasComboBox.Size = new System.Drawing.Size(223, 30);
+            this.matrasComboBox.Size = new System.Drawing.Size(223, 38);
             this.matrasComboBox.TabIndex = 30;
             this.matrasComboBox.Click += new System.EventHandler(this.RasstTextBox_TextChanged);
             // 
@@ -547,11 +553,11 @@
             this.weightTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.weightTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.weightTextBox.ForeColor = System.Drawing.Color.Gainsboro;
-            this.weightTextBox.Location = new System.Drawing.Point(322, 96);
+            this.weightTextBox.Location = new System.Drawing.Point(322, 94);
             this.weightTextBox.Name = "weightTextBox";
             this.weightTextBox.Size = new System.Drawing.Size(225, 19);
             this.weightTextBox.TabIndex = 26;
-          
+            this.weightTextBox.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.weightTextBox_MaskInputRejected);
             this.weightTextBox.TextChanged += new System.EventHandler(this.FurnitureTextBox_TextChanged);
             // 
             // label8
@@ -565,6 +571,7 @@
             this.label8.Size = new System.Drawing.Size(133, 20);
             this.label8.TabIndex = 18;
             this.label8.Text = "Адрес доставки";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // label5
             // 
@@ -577,6 +584,7 @@
             this.label5.Size = new System.Drawing.Size(135, 20);
             this.label5.TabIndex = 15;
             this.label5.Text = "Номер договора";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label10
             // 
@@ -589,6 +597,7 @@
             this.label10.Size = new System.Drawing.Size(154, 20);
             this.label10.TabIndex = 20;
             this.label10.Text = "Стоимость мебели";
+            this.label10.MouseClick += new System.Windows.Forms.MouseEventHandler(this.label10_MouseClick);
             // 
             // label6
             // 
@@ -601,6 +610,7 @@
             this.label6.Size = new System.Drawing.Size(48, 20);
             this.label6.TabIndex = 16;
             this.label6.Text = "Дата";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // label7
             // 
@@ -613,6 +623,7 @@
             this.label7.Size = new System.Drawing.Size(47, 20);
             this.label7.TabIndex = 17;
             this.label7.Text = "ФИО";
+            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // label9
             // 
@@ -625,13 +636,14 @@
             this.label9.Size = new System.Drawing.Size(90, 20);
             this.label9.TabIndex = 19;
             this.label9.Text = "Телефоны";
+            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label3.Location = new System.Drawing.Point(350, 392);
+            this.label3.Location = new System.Drawing.Point(350, 388);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(177, 20);
@@ -644,31 +656,33 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label4.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label4.Location = new System.Drawing.Point(407, 152);
+            this.label4.Location = new System.Drawing.Point(407, 148);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(50, 20);
             this.label4.TabIndex = 4;
             this.label4.Text = "Этаж";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label2.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label2.Location = new System.Drawing.Point(420, 68);
+            this.label2.Location = new System.Drawing.Point(411, 70);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(37, 20);
             this.label2.TabIndex = 2;
             this.label2.Text = "Вес";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label21
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label21.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label21.Location = new System.Drawing.Point(320, 101);
+            this.label21.Location = new System.Drawing.Point(320, 99);
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(225, 20);
@@ -681,13 +695,12 @@
             this.label35.BackColor = System.Drawing.Color.Transparent;
             this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label35.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label35.Location = new System.Drawing.Point(322, 262);
+            this.label35.Location = new System.Drawing.Point(322, 259);
             this.label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(225, 20);
             this.label35.TabIndex = 67;
             this.label35.Text = "________________________";
-           
             // 
             // tabPage2
             // 
@@ -711,7 +724,6 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(580, 458);
             this.panel6.TabIndex = 40;
-       
             // 
             // panel2
             // 
@@ -731,7 +743,21 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(611, 162);
             this.panel2.TabIndex = 44;
-    
+            // 
+            // kreplenieBox
+            // 
+            this.kreplenieBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(66)))), ((int)(((byte)(131)))));
+            this.kreplenieBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.kreplenieBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.kreplenieBox.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.kreplenieBox.Location = new System.Drawing.Point(34, 22);
+            this.kreplenieBox.Name = "kreplenieBox";
+            this.kreplenieBox.Size = new System.Drawing.Size(122, 17);
+            this.kreplenieBox.TabIndex = 39;
+            this.kreplenieBox.Text = "0";
+            this.kreplenieBox.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.kreplenieBox_MaskInputRejected);
+            this.kreplenieBox.Click += new System.EventHandler(this.kreplenieBox_Click);
+            this.kreplenieBox.TextChanged += new System.EventHandler(this.RasstTextBox_TextChanged);
             // 
             // label22
             // 
@@ -819,17 +845,6 @@
             this.bezSborkiRadioButton.Text = "(0 рублей)";
             this.bezSborkiRadioButton.UseVisualStyleBackColor = false;
             this.bezSborkiRadioButton.CheckedChanged += new System.EventHandler(this.BezSborkiRadioButton_CheckedChanged);
-            // 
-            // kreplenieBox
-            // 
-            this.kreplenieBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(66)))), ((int)(((byte)(131)))));
-            this.kreplenieBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.kreplenieBox.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.kreplenieBox.Location = new System.Drawing.Point(34, 22);
-            this.kreplenieBox.Name = "kreplenieBox";
-            this.kreplenieBox.Size = new System.Drawing.Size(122, 18);
-            this.kreplenieBox.TabIndex = 39;
-        
             // 
             // label23
             // 
@@ -1018,7 +1033,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(606, 194);
             this.panel1.TabIndex = 29;
-           
             // 
             // label33
             // 
@@ -1169,6 +1183,7 @@
             this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.totalPanel.ResumeLayout(false);
             this.totalPanel.PerformLayout();
             this.topPanel.ResumeLayout(false);
